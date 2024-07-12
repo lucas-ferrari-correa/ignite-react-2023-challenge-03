@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const InfoContainer = styled.div`
@@ -44,6 +45,16 @@ export const InfoHeader = styled.div`
     color: ${(props) => props.theme.blue};
     font-size: 75%;
   }
+`
+
+export const LinkRouter = styled(Link)`
+  text-decoration: none;
+  color: ${(props) => props.theme.blue};
+`
+
+export const LinkGithub = styled.a`
+  text-decoration: none;
+  color: ${(props) => props.theme.blue};
 `
 
 export const InfoTitle = styled.div`

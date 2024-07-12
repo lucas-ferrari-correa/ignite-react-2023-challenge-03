@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const IssuesContainer = styled.div`
   display: flex;
@@ -14,7 +15,9 @@ export const IssuesContainer = styled.div`
   }
 `
 
-export const Issue = styled.div`
+export const Issue = styled(Link)`
+  text-decoration: none;
+
   border-radius: 10px;
 
   display: flex;
@@ -44,11 +47,12 @@ export const IssueProfile = styled.div`
 
   span {
     max-width: 80%;
-    font-size: 175%;
+    font-size: 125%;
     color: ${(props) => props.theme['base-title']};
   }
 
   p {
+    font-size: 90%;
     color: ${(props) => props.theme['base-span']};
   }
 `

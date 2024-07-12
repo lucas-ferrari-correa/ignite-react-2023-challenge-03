@@ -9,71 +9,73 @@ import {
   UserInformationWrapper,
   UserProfile,
 } from './styles'
+import { useCallback, useEffect, useState } from 'react'
+import {
+  githubUsersAPI,
+  GithubUsersAPIResponse,
+} from '../../../../services/githubUsersAPI'
 
 export function User() {
+  const [user, setUser] = useState<GithubUsersAPIResponse>()
+
+  const fetchUser = useCallback(async () => {
+    const response = await githubUsersAPI.get('/lucas-ferrari-correa')
+
+    setUser(response.data as GithubUsersAPIResponse)
+  }, [])
+
+  useEffect(() => {
+    fetchUser()
+  }, [fetchUser])
+
+  const followers =
+    user?.followers === 1
+      ? `${user?.followers} seguidor`
+      : `${user?.followers} seguidores`
+
   return (
     <UserContainer>
-      <UserAvatar
-        src={'https://github.com/lucas-ferrari-correa.png'}
-        alt="avatar"
-      />
+      {user && (
+        <>
+          <UserAvatar src={user?.avatar_url} alt="avatar" />
 
-      <UserContent>
-        <UserProfile>
-          <p>Lucas Ferrari Corrêa</p>
+          <UserContent>
+            <UserProfile>
+              <p>{user?.name}</p>
 
-          <UserGithubLink>
-            <div>
-              <p>GITHUB</p>
+              <UserGithubLink href={user?.html_url}>
+                <div>
+                  <p>GITHUB</p>
 
-              <Link size={16} />
-            </div>
-          </UserGithubLink>
-        </UserProfile>
+                  <Link size={16} />
+                </div>
+              </UserGithubLink>
+            </UserProfile>
 
-        <UserDescription>
-          Sou daora Sou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou daoraSou
-          daoraSou daora
-        </UserDescription>
+            <UserDescription>{user?.bio}</UserDescription>
 
-        <UserInformationWrapper>
-          <UserInformation>
-            <GithubLogo size={20} />
+            <UserInformationWrapper>
+              <UserInformation>
+                <GithubLogo size={20} />
 
-            <p>lucas-ferrari-correa</p>
-          </UserInformation>
+                <p>{user?.login}</p>
+              </UserInformation>
 
-          <UserInformation>
-            <Buildings size={20} />
+              <UserInformation>
+                <Buildings size={20} />
 
-            <p>@growthventure</p>
-          </UserInformation>
+                <p>{user?.company}</p>
+              </UserInformation>
 
-          <UserInformation>
-            <Users size={20} />
+              <UserInformation>
+                <Users size={20} />
 
-            <p>32 seguidores</p>
-          </UserInformation>
-        </UserInformationWrapper>
-      </UserContent>
+                <p>{followers}</p>
+              </UserInformation>
+            </UserInformationWrapper>
+          </UserContent>
+        </>
+      )}
     </UserContainer>
   )
 }

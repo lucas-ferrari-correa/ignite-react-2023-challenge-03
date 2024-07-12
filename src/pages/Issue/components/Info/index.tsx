@@ -1,47 +1,77 @@
-import { Buildings, CaretLeft, GithubLogo, Link, Users } from 'phosphor-react'
+import {
+  CalendarCheck,
+  CaretLeft,
+  ChatCircle,
+  GithubLogo,
+  Link,
+} from 'phosphor-react'
 import {
   InfoContainer,
   InfoHeader,
   InfoProfile,
   InfoTitle,
   InfoWrapper,
+  LinkGithub,
+  LinkRouter,
 } from './styles'
+import { ptBR } from 'date-fns/locale'
+import { formatDistanceToNow } from 'date-fns'
 
-export function Info() {
+interface Props {
+  title: string | undefined
+  login: string | undefined
+  createdAt: string | undefined
+  comments: number | undefined
+  url: string | undefined
+}
+
+export function Info({ title, login, createdAt, comments, url }: Props) {
+  const formatComments =
+    comments === 1 ? `${comments} comentário` : `${comments} comentários`
+
   return (
     <InfoContainer>
       <InfoHeader>
-        <div>
-          <CaretLeft size={20} />
+        <LinkRouter to={'/'}>
+          <div>
+            <CaretLeft size={20} />
 
-          <p>VOLTAR</p>
-        </div>
+            <p>VOLTAR</p>
+          </div>
+        </LinkRouter>
 
-        <div>
-          <p>VER NO GITHUB</p>
-          <Link size={16} />
-        </div>
+        <LinkGithub href={url}>
+          <div>
+            <p>VER NO GITHUB</p>
+            <Link size={16} />
+          </div>
+        </LinkGithub>
       </InfoHeader>
 
-      <InfoTitle>JavaScript data types and data structures</InfoTitle>
+      <InfoTitle>{title}</InfoTitle>
 
       <InfoWrapper>
         <InfoProfile>
           <GithubLogo size={20} />
 
-          <p>lucas-ferrari-correa</p>
+          <p>{login}</p>
         </InfoProfile>
 
         <InfoProfile>
-          <Buildings size={20} />
+          <CalendarCheck size={20} />
 
-          <p>@growthventure</p>
+          <p>
+            {formatDistanceToNow(createdAt ? new Date(createdAt) : new Date(), {
+              addSuffix: true,
+              locale: ptBR,
+            })}
+          </p>
         </InfoProfile>
 
         <InfoProfile>
-          <Users size={20} />
+          <ChatCircle size={20} />
 
-          <p>32 seguidores</p>
+          <p>{formatComments}</p>
         </InfoProfile>
       </InfoWrapper>
     </InfoContainer>

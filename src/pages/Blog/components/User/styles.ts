@@ -60,9 +60,11 @@ export const UserProfile = styled.div`
   }
 `
 
-export const UserGithubLink = styled.div`
+export const UserGithubLink = styled.a`
   padding-top: 0.5rem;
   width: 4rem;
+
+  text-decoration: none;
 
   color: ${(props) => props.theme.blue};
 
